@@ -1,0 +1,191 @@
+:root {
+  --water: #123a5c;
+  --water-hover: #1b5280;
+  --ship: #4a5568;
+  --miss: #8fa8bd;
+  --hit: #d9534f;
+  --sunk: #7b1d1a;
+  --preview: #2f855a;
+  --preview-invalid: #a33;
+  --panel: #0d2438;
+  --text: #eaf2f8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 1rem;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: #071a29;
+  color: var(--text);
+}
+
+header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h2 {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 0.5rem;
+  opacity: 0.85;
+}
+
+.status {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.remaining {
+  margin: 0.25rem 0 0;
+  opacity: 0.75;
+  font-size: 0.9rem;
+}
+
+main {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.board-panel,
+.side-panel {
+  background: var(--panel);
+  border-radius: 10px;
+  padding: 0.75rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 2px;
+  aspect-ratio: 1;
+  width: 100%;
+}
+
+.cell {
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+  background: var(--water);
+  cursor: pointer;
+  min-width: 0;
+  min-height: 0;
+}
+
+.cell:disabled {
+  cursor: default;
+}
+
+.cell:enabled:hover {
+  background: var(--water-hover);
+}
+
+.cell.ship {
+  background: var(--ship);
+}
+
+.cell.miss {
+  background: var(--miss);
+}
+
+.cell.hit {
+  background: var(--hit);
+}
+
+.cell.sunk {
+  background: var(--sunk);
+}
+
+.cell.preview {
+  background: var(--preview);
+}
+
+.cell.preview-invalid {
+  background: var(--preview-invalid);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+button {
+  font: inherit;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: #1b4c74;
+  color: var(--text);
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.fleet,
+.log {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  font-size: 0.9rem;
+}
+
+.fleet li {
+  padding: 0.15rem 0;
+}
+
+.fleet li.placed {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+.fleet li.current {
+  font-weight: 700;
+  color: #7ee0a8;
+}
+
+.fleet li.destroyed {
+  color: var(--hit);
+  text-decoration: line-through;
+}
+
+.log {
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.log li {
+  padding: 0.2rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 640px) {
+  body {
+    padding: 0.5rem;
+  }
+
+  .controls button {
+    flex: 1 1 45%;
+  }
+}

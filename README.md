@@ -65,6 +65,7 @@ src/render.js       renders state into the DOM; contains no game rules
 src/main.js         event wiring: click -> logic -> render
 tests/              dependency-free test runner and suites
 BUGS.md             bug log: symptom, root cause, fix, verification
+DEVELOPMENT.md      how this game was built with Devin: staged workflow and observations
 ```
 
 The split is deliberate: `board.js`, `game.js` and `ai.js` never touch the DOM and hold
@@ -101,3 +102,8 @@ firing. Result: about 54 shots to clear a fleet, against about 95 for uniform ra
 - No persistence — refreshing starts a new game.
 - The AI's shot is delayed 600 ms so the log is readable rather than instant.
 - Ships are allowed to touch, which is the standard rule set.
+
+## Development notes
+
+[DEVELOPMENT.md](DEVELOPMENT.md) documents how this project was built with Devin: the
+staged plan, the pull request per stage, and what was observed along the way.

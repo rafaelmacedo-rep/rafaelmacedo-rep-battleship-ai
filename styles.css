@@ -89,11 +89,14 @@ main {
   min-height: 0;
 }
 
+/* Grid cells keep full contrast when disabled; only real buttons fade. */
 .cell:disabled {
   cursor: default;
+  opacity: 1;
 }
 
-.cell:enabled:hover {
+/* The placement preview owns the hovered cell, so exclude it from the hover colour. */
+.cell:enabled:not(.preview):not(.preview-invalid):hover {
   background: var(--water-hover);
 }
 

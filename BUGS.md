@@ -3,6 +3,35 @@
 Every bug found while building the game, newest first.
 Format: **Symptom → Root cause → Fix → How verified**.
 
+## 3. Hovered cell never showed the placement preview colour
+
+- **Symptom:** during placement, hovering a cell shaded the rest of the ship green (or red
+  when invalid) but the hovered cell itself stayed the plain hover blue, so a Carrier
+  preview looked 4 cells long instead of 5. Same for the invalid/red preview.
+- **Root cause:** `.cell:enabled:hover` in `styles.css` has higher specificity (class plus
+  two pseudo-classes) than `.cell.preview` / `.cell.preview-invalid`, so it won on the one
+  cell that is both hovered and part of the preview — reordering the rules would not have
+  helped.
+- **Fix:** excluded preview cells from the hover rule:
+  `.cell:enabled:not(.preview):not(.preview-invalid):hover`.
+- **How verified:** in the browser, hovering A1 with a horizontal Carrier now paints all of
+  A1-E1 green (computed background of A1 is the preview green, not the hover blue), and an
+  invalid position paints all five cells red.
+
+## 2. Fired cells and the enemy board looked washed out
+
+- **Symptom:** every already-fired enemy cell — and the whole enemy grid while the AI was
+  firing — rendered at 45% opacity, muting the hit red and miss pale so board state was
+  hard to read.
+- **Root cause:** grid cells are `<button>` elements and get disabled once fired (or while
+  it is not the player's turn), so the generic `button:disabled { opacity: 0.45 }` rule for
+  the control buttons applied to them too.
+- **Fix:** `.cell:disabled { opacity: 1 }`, which outranks the element-level rule, so only
+  real control buttons fade when disabled.
+- **How verified:** in the browser, a fired enemy cell and the enemy grid during the AI's
+  turn both compute `opacity: 1` and show full-strength hit/miss colours; the disabled
+  "Start game" button still fades.
+
 ## 1. AI could chase a ship line that did not exist
 
 - **Symptom:** when two ships sat in the same row with a gap between them (e.g. a

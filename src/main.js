@@ -1,4 +1,4 @@
-import { randomShot } from './ai.js';
+import { createBrain } from './ai.js';
 import {
   aiFire,
   createGame,
@@ -29,6 +29,7 @@ const elements = {
 };
 
 let state = createGame();
+let brain = createBrain();
 let preview = null;
 
 function draw() {
@@ -43,7 +44,7 @@ function cellFrom(event) {
 
 function takeAiTurn() {
   window.setTimeout(() => {
-    aiFire(state, (board) => randomShot(board));
+    aiFire(state, brain);
     draw();
   }, AI_DELAY_MS);
 }
@@ -85,6 +86,7 @@ elements.startBtn.addEventListener('click', () => {
 });
 elements.playAgainBtn.addEventListener('click', () => {
   state = createGame();
+  brain = createBrain();
   preview = null;
   draw();
 });

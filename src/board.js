@@ -84,7 +84,7 @@ export function fireAt(board, row, col) {
   const ship = shipAt(board, row, col);
   if (!ship) {
     board.shots.set(key(row, col), MISS);
-    return { result: MISS, ship: null, sunk: false, cell: cellName(row, col) };
+    return { result: MISS, ship: null, sunk: false, row, col, cell: cellName(row, col) };
   }
   ship.hits.add(key(row, col));
   board.shots.set(key(row, col), HIT);
@@ -92,6 +92,8 @@ export function fireAt(board, row, col) {
     result: HIT,
     ship,
     sunk: isSunk(ship),
+    row,
+    col,
     cell: cellName(row, col),
   };
 }

@@ -102,15 +102,17 @@ export function playerFire(state, row, col) {
 }
 
 /**
- * AI fires at the player board. `chooseShot(board)` supplies the target;
- * Stage 1 uses a random legal cell, Stage 2 replaces it with hunt & target.
+ * AI fires at the player board. `brain.chooseShot(board)` supplies the target and
+ * `brain.onResult(board, shot)` feeds the outcome back, so all targeting knowledge
+ * stays inside `ai.js`.
  */
-export function aiFire(state, chooseShot) {
+export function aiFire(state, brain) {
   if (state.phase !== 'playing' || state.turn !== 'ai') return null;
-  const target = chooseShot(state.playerBoard);
+  const target = brain.chooseShot(state.playerBoard);
   if (!target) return null;
   const shot = fireAt(state.playerBoard, target.row, target.col);
   if (!shot) return null;
+  brain.onResult(state.playerBoard, shot);
   log(state, describe('Enemy', shot));
   endIfWon(state);
   if (state.phase === 'playing') state.turn = 'player';

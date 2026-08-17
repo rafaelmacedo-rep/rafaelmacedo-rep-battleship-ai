@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Battleship tests</title>
+    <style>
+      body {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        margin: 2rem;
+        background: #071a29;
+        color: #eaf2f8;
+      }
+      .summary {
+        font-size: 1.2rem;
+        font-weight: 700;
+      }
+      .summary.pass,
+      li.pass {
+        color: #7ee0a8;
+      }
+      .summary.fail,
+      li.fail {
+        color: #ff8a80;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Battleship unit tests</h1>
+    <div id="results">Running...</div>
+    <script type="module">
+      import { run, report } from './test-runner.js';
+      import './board.test.js';
+      import './game.test.js';
+      import './ai.test.js';
+
+      report(run(), document.getElementById('results'));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+{
+  "name": "battleship-ai",
+  "private": true,
+  "type": "module",
+  "description": "Marks the .js files as ES modules so the tests can run under Node. No dependencies, no build step."
+}

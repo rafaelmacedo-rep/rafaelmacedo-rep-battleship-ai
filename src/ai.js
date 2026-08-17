@@ -39,12 +39,35 @@ function neighbours({ row, col }) {
   ];
 }
 
-/** Hits that line up with `hit` either horizontally or vertically. */
+/**
+ * The unbroken run of hits through `hit` along one axis. Only contiguous hits count,
+ * so two separate ships sharing a row are never mistaken for one long ship.
+ */
+function runThrough(hits, hit, axis) {
+  const has = (row, col) => hits.some((other) => other.row === row && other.col === col);
+  const cells = [hit];
+  for (const step of [-1, 1]) {
+    let distance = step;
+    while (
+      axis === 'row' ? has(hit.row, hit.col + distance) : has(hit.row + distance, hit.col)
+    ) {
+      cells.push(
+        axis === 'row'
+          ? { row: hit.row, col: hit.col + distance }
+          : { row: hit.row + distance, col: hit.col },
+      );
+      distance += step;
+    }
+  }
+  return cells;
+}
+
+/** Hits that line up contiguously with `hit`, horizontally or vertically. */
 function lineThrough(hits, hit) {
-  const sameRow = hits.filter((other) => other.row === hit.row);
-  const sameCol = hits.filter((other) => other.col === hit.col);
-  if (sameRow.length > 1) return { cells: sameRow, axis: 'row' };
-  if (sameCol.length > 1) return { cells: sameCol, axis: 'col' };
+  for (const axis of ['row', 'col']) {
+    const cells = runThrough(hits, hit, axis);
+    if (cells.length > 1) return { cells, axis };
+  }
   return null;
 }
 
